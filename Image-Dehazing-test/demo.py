@@ -27,9 +27,9 @@ def make_test_data(cfg, img_path_list, device):
 
 
 @logger
-def load_pretrain_network(cfg, device):
+def load_pretrain_network(cfg, device, net_name='aod', ckpt='AOD_9.pkl', model_dir='model/'):
     net = AODnet().to(device)
-    net.load_state_dict(torch.load(os.path.join(cfg.model_dir, cfg.net_name, cfg.ckpt))['state_dict'])
+    net.load_state_dict(torch.load(os.path.join(model_dir, net_name, ckpt))['state_dict'])
     return net
 
 
@@ -42,7 +42,7 @@ def main(cfg):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     # -------------------------------------------------------------------
     # load data
-    test_file_path = glob.glob('/home/cyanzeus/AOD-Net/test_img/*.jpg')
+    test_file_path = glob.glob('test_img/*.jpg')
     test_images = make_test_data(cfg, test_file_path, device)
     # -------------------------------------------------------------------
     # load network
@@ -51,11 +51,8 @@ def main(cfg):
     # set network weights
     # -------------------------------------------------------------------
     # start train
-    print('Start eval')
     network.eval()
-    print('nw eval done')
     for idx, im in enumerate(test_images):
-        print('in for loop')
         dehaze_image = network(im)
         print(test_file_path[idx])
         torchvision.utils.save_image(torch.cat((im, dehaze_image), 0), "results/" + test_file_path[idx].split("/")[-1])
