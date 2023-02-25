@@ -42,7 +42,7 @@ def main(cfg):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     # -------------------------------------------------------------------
     # load data
-    test_file_path = glob.glob('test_img/*.jpg')
+    test_file_path = glob.glob('../uploads/*.jpg')
     test_images = make_test_data(cfg, test_file_path, device)
     # -------------------------------------------------------------------
     # load network
@@ -55,7 +55,7 @@ def main(cfg):
     for idx, im in enumerate(test_images):
         dehaze_image = network(im)
         print(test_file_path[idx])
-        torchvision.utils.save_image(torch.cat((im, dehaze_image), 0), "results/" + test_file_path[idx].split("/")[-1])
+        torchvision.utils.save_image(torch.cat((im, dehaze_image), 0), "../images/" + test_file_path[idx].split("/")[-1])
 
 
 if __name__ == '__main__':
