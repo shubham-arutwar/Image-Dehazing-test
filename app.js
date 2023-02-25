@@ -24,18 +24,12 @@ app.get('/', (req, res) => {
 // Handle image file uploads on POST request using Multer middleware
 app.post('/upload', upload.single('image'), (req, res) => {
   // Execute the Python script as a child process
-  try{
-    const pythonProcess = spawn('python', ['demo.py', req.file.path]);
-    pythonProcess.stdout.on('data', (data) => {
-      console.log(data.toString());
-    });
-  }catch(err){
-    console.log(err)
-  }
-  
+  const pythonProcess = spawn('python', ['demo.py', req.file.path]);
 
   // Log any output from the Python script to the console
- 
+  pythonProcess.stdout.on('data', (data) => {
+    console.log(data.toString());
+  });
 
   // Send the uploaded image as a response
   res.sendFile(__dirname + '/' + req.file.path);
