@@ -42,7 +42,7 @@ def main(cfg):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     # -------------------------------------------------------------------
     # load data
-    test_file_path = glob.glob('uploads/*.jpg')
+    test_file_path = glob.glob('uploads/*.*')
     test_images = make_test_data(cfg, test_file_path, device)
     # -------------------------------------------------------------------
     # load network
