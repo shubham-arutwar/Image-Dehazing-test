@@ -57,7 +57,6 @@ def main(cfg):
         print(test_file_path[idx])
         torchvision.utils.save_image(torch.cat((im, dehaze_image), 0), "images/" + test_file_path[idx].split("/")[-1])
 
-
 if __name__ == '__main__':
     config_args, unparsed_args = get_config()
     main(config_args)
